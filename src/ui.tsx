@@ -1,0 +1,17 @@
+// Shared design-system primitives for AEGIS NEXUS (obsidian / amber / cyan / emerald)
+import {clamp,f1} from './engine';
+/* Theme-aware colour helpers: values resolve through CSS variables, so they follow the active theme. */
+export const C={amber:'rgb(var(--amber))',ok:'rgb(var(--ok))',danger:'rgb(var(--danger))',cy:'rgb(var(--cy))',cy2:'rgb(var(--cy2))',cy3:'rgb(var(--cy3))',mute:'rgb(var(--mute))',fg:'rgb(var(--fg))',bd:'rgb(var(--bd))',bd2:'rgb(var(--bd2))',pn:'rgb(var(--pn))',p2:'rgb(var(--p2))',ink:'rgb(var(--ink))',n1:'rgb(var(--n1))',n2:'rgb(var(--n2))',grid:'rgb(var(--grid))',lost:'rgb(var(--lost))'};
+export const mix=(c:string,pct:number)=>`color-mix(in srgb, ${c} ${pct}%, transparent)`;
+export const PRE={pid:'P1',days:45,bud:0,staff:0,sev:1};
+export const Card=({t,r,children,cls='',title}:any)=><section title={title} className={`rounded-lg border border-bd bg-pn p-4 ${cls}`}>{(t||r)&&<div className="mb-3 flex items-center justify-between gap-2"><h3 className="text-[11px] font-medium uppercase tracking-[.12em] text-mute">{t}</h3>{r}</div>}{children}</section>;
+export const Kpi=({l,v,s,c='',d,title}:any)=><Card t={l} title={title} r={d}><div className={`text-2xl font-semibold tabular-nums ${c}`}>{v}</div><div className="mt-0.5 text-xs text-mute">{s}</div></Card>;
+export const Btn=({g,sm,children,...p}:any)=><button {...p} className={`rounded-lg font-semibold transition hover:-translate-y-px focus:outline-none focus-visible:ring-2 focus-visible:ring-amber/60 ${sm?'px-2.5 py-1 text-xs':'px-3.5 py-2 text-sm'} ${g?'border border-bd bg-p2 text-fg hover:border-bd2':'bg-amber text-black hover:brightness-110'}`}>{children}</button>;
+export const Pill=({c,children}:any)=><span className="whitespace-nowrap rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider" style={{color:c,borderColor:mix(c,40),background:mix(c,8)}}>{children}</span>;
+export const Bar1=({l,v,c,max=100,suffix=''}:any)=><div className="my-1.5 flex items-center gap-2 text-sm"><span className="w-36 shrink-0 text-xs text-mute">{l}</span><div className="h-2 flex-1 overflow-hidden rounded bg-p2"><div style={{width:clamp(v/max*100)+'%',background:c}} className="h-full rounded transition-all duration-500"/></div><span className="w-16 text-right text-xs tabular-nums">{f1(v)}{suffix}</span></div>;
+export const Delta=({v,inv,u='',d=1}:any)=>Math.abs(v)<.05?<span className="text-xs text-mute">—</span>:<span className={`text-xs font-semibold ${(inv?v<0:v>0)?'text-ok':'text-danger'}`}>{v>0?'▲':'▼'} {Math.abs(v).toFixed(d)}{u}</span>;
+export const TH='px-2 py-2 text-left text-[10.5px] uppercase tracking-wider text-mute font-semibold cursor-pointer select-none',TD='px-2 py-2.5 border-t border-bd text-[13px]';
+export const Tip={contentStyle:{background:C.pn,border:`1px solid ${C.bd}`,borderRadius:8,color:C.fg,fontSize:12,boxShadow:'0 4px 16px rgb(0 0 0 / .12)'},labelStyle:{color:C.fg},itemStyle:{color:C.fg},cursor:{fill:'rgb(var(--fg) / .06)',stroke:'rgb(var(--bd))'}};
+export const LG={wrapperStyle:{fontSize:12},formatter:(v:any)=><span style={{color:C.mute}}>{v}</span>};
+export const AX={stroke:'rgb(var(--mute))',tickLine:false,axisLine:{stroke:'rgb(var(--bd))'}};
+export const H=({t,s,r}:any)=><div className="mb-4 flex flex-wrap items-end justify-between gap-2"><div><h1 className="text-xl font-semibold tracking-tight">{t}</h1>{s&&<p className="mt-0.5 max-w-3xl text-[13px] text-mute">{s}</p>}</div>{r}</div>;

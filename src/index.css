@@ -1,0 +1,37 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+
+/* ===== Theme tokens (single source of truth) =====
+   Stored as space-separated RGB channels so Tailwind alpha modifiers (bg-amber/10) work.
+   Dark is the default; light is applied via <html data-theme="light"> (set early by index.html). */
+:root{color-scheme:dark;
+ --ink:10 10 10;--sb:13 13 13;--pn:20 20 20;--p2:27 27 27;--alt:16 16 16;--bd:42 42 42;--bd2:58 58 58;--fg:245 245 245;--mute:161 161 170;--faint:115 115 115;
+ --amber:232 163 50;--ok:85 185 135;--danger:231 101 112;--cy:86 196 207;--cy2:74 159 169;--cy3:60 127 135;--n1:138 138 144;--n2:94 94 100;
+ --grid:29 29 29;--mxhi:61 31 37;--mxmid:61 50 23;--mxlo:23 52 42;--lost:36 21 24;--scrim:0 0 0}
+:root[data-theme='light']{color-scheme:light;
+ --ink:245 246 248;--sb:255 255 255;--pn:255 255 255;--p2:236 239 243;--alt:236 239 243;--bd:221 226 232;--bd2:195 202 211;--fg:32 36 43;--mute:98 107 120;--faint:111 120 133;
+ --amber:184 121 18;--ok:24 121 78;--danger:200 63 77;--cy:8 126 139;--cy2:61 154 164;--cy3:116 182 189;--n1:122 131 145;--n2:168 176 187;
+ --grid:216 221 228;--mxhi:246 212 216;--mxmid:244 226 188;--mxlo:203 233 218;--lost:245 218 221;--scrim:32 36 43}
+
+body{@apply bg-ink text-fg font-sans antialiased}
+input,select{@apply bg-p2 border border-bd rounded-md px-2 py-1.5 text-sm text-fg focus:outline-none focus:border-amber}
+input[type=range]{@apply p-0 accent-amber}
+details>summary{list-style:none}details>summary::-webkit-details-marker{display:none}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid rgb(var(--amber)/.7);outline-offset:2px}
+
+/* React Flow chrome follows the theme */
+.react-flow__attribution{display:none}
+.react-flow__controls{box-shadow:0 0 0 1px rgb(var(--bd))}
+.react-flow__controls button{background:rgb(var(--pn));border-bottom:1px solid rgb(var(--bd));fill:rgb(var(--fg));color:rgb(var(--fg))}
+.react-flow__controls button:hover{background:rgb(var(--p2))}
+.react-flow__minimap{background:rgb(var(--alt));border:1px solid rgb(var(--bd));border-radius:6px}
+.aegis-node{cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none}.aegis-node.is-dragging{cursor:grabbing;z-index:5}
+.aegis-canvas .react-flow__pane{cursor:default}.aegis-canvas .react-flow__pane.dragging{cursor:grabbing}
+.react-flow__edge-textbg{fill:rgb(var(--ink))}
+
+.fade{animation:fade .3s ease}@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.drawer-in{animation:drawer-in .22s cubic-bezier(.2,.7,.2,1)}@keyframes drawer-in{from{transform:translateX(-100%)}to{transform:none}}
+.scrim-in{animation:scrim-in .22s ease}@keyframes scrim-in{from{opacity:0}to{opacity:1}}
+/* Brief colour cross-fade while switching theme (class is added/removed by the ThemeProvider) */
+html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::after{transition:background-color .25s ease,border-color .25s ease,color .25s ease,fill .25s ease,stroke .25s ease!important}
+@media (prefers-reduced-motion:reduce){.fade,.drawer-in,.scrim-in{animation:none}*{transition:none!important}}
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:rgb(var(--bd));border-radius:9px}
